@@ -1,0 +1,3 @@
+from module import perhitungan_angsuran_per_bulan_klien as perhitungan_bunga
+
+perhitungan_bunga.bunga_flat(10_000_000, 10)
