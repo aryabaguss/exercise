@@ -18,13 +18,21 @@ compare = {
     "Basic Plan": 1, "Standard Plan": 2, "Premium Plan": 3
 }
 
+list_plan = list(plan.keys())
+
+
 class User:
     
     def __init__(self,username,current_plan,duration_plan):
         self.username = username
         self.current_plan = current_plan.title()
         self.duration_plan = duration_plan
-    
+        
+        if self.current_plan not in (list_plan):
+            raise Exception("Plan didn't exist!")
+        else:
+            pass
+        
     def check_benefit(self):
         print()
         print('Pacflix Plan List')
@@ -33,7 +41,7 @@ class User:
     
     def check_plan(self):        
         benefit = {
-            "Services" : ['Stream', 'Download','SD Quality','HD Quality','UHD Quality','Number of Devices','Content Variety','Price'],
+            "Services" : plan['Services'],
             "Plan" : plan[self.current_plan]
         }
         print(f'Username      : {self.username}')
@@ -46,8 +54,12 @@ class User:
     
     def upgrade_plan(self,new_plan):
         self.new_plan = new_plan.title()
-        plan_price = plan[self.new_plan][-1]
+        if self.new_plan not in (list_plan):
+            raise Exception("Plan didn't exist!")
+        else:
+            pass
         
+        plan_price = plan[self.new_plan][-1]
         if compare[self.current_plan] < compare[new_plan]:
             if self.duration_plan > 12:
                 discount = (5/100)
@@ -76,9 +88,18 @@ class New_User:
     def pick_plan(self,new_plan,referral_code):
         self.new_plan = new_plan.title()
         self.referral_code = referral_code
+        if self.new_plan not in (list_plan):
+            raise Exception("Plan didn't exist!")
+        else:
+            pass
+        
         plan_price = plan[self.new_plan][-1]
         
-        list_values = [item for sublist in user.values() for item in sublist]
+        list_values = []
+        for sublist in user.values():
+            for item in sublist:
+                list_values.append(item)
+        
         if referral_code in (list_values):
             print('Referral Code is Available')
             discount = (4/100)
@@ -88,7 +109,8 @@ class New_User:
         final_price = plan_price - (plan_price * discount)
         print(f'Total Price for {self.new_plan}: Rp {final_price:,}')
 
-'''Case Study 1: User Check all plan benefit '''    
+'''Case Study 1: User Check all plan benefit '''
+print()    
 print('==== STUDY CASE 1 ====')
 user_1 = User('Shandy','basic plan',12)
 print(user_1.username, user_1.current_plan, user_1.duration_plan)
