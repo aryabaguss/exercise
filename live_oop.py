@@ -43,7 +43,7 @@ class AlatTulis:
         print('Penghapus = {}'.format(AlatTulis.penghapus))
 
 class Pekerja:
-    domain = '@rootrider.com'
+    domain = '@company.com'
 
     def __init__(self, nama_depan, nama_belakang):
         self.nama_depan = nama_depan
@@ -59,30 +59,28 @@ class Pekerja:
         first_name = self.nama_depan.lower()
         last_name = self.nama_belakang.lower()
 
-        print('{}.{}{}'.format(first_name,last_name,self.domain))
+        print(f'{first_name}.{last_name}{self.domain}')
 
 class Pelanggan:
 
     def __init__(self, kota, desa):
         self.kota = kota
         self.desa = desa
-        self.kota_desa = print('{},{}'.format(kota,desa))
+        self.kota_desa = print(f'{kota},{desa}')
 
 class BankAccount:
     def __init__(self, nomor_rekening, nama, saldo):
         self.nomor_rekening = nomor_rekening
         self.nama = nama
-        self.saldo = saldo
+        self.saldo = float(saldo)
 
     def setor_tunai(self,nominal):
         self.saldo += nominal
 
-        return self.saldo
+        
 
     def tarik_tunai(self,nominal):
         self.saldo -= nominal
-
-        return self.saldo
 
     def display(self):
         print('Nomor Rekening = {}'.format(self.nomor_rekening))
@@ -111,7 +109,7 @@ daftar_harga = AlatTulis()
 daftar_harga.TotalHarga()
 
 print('=================================')
-employee = Pekerja('arya', 'bagus')
+employee = Pekerja('arya', 'baGus')
 employee.namalengkap()
 employee.email()
 
