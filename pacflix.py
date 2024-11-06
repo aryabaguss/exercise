@@ -7,11 +7,11 @@ user= {
     "Bagus": ["Basic Plan", 11, "bagus-9f92"]
 }
 
-plan= {
+plan = {
     "Services" : ['Stream', 'Download','SD Quality','HD Quality','UHD Quality','Number of Devices','Content Variety','Price'],
-    "Basic Plan":[True,True,True,False,False,1,'3rd party Movie Only', 120_000],
-    "Standard Plan":[True,True,True,True,False,2,'Basic Plan + Sports (F1, Football, Basketball)',160_000],
-    "Premium Plan":[True,True,True,True,True,4,'Basic Plan + Standard Plan + Pacflix Original Series',200_000]   
+    "Basic Plan":['\u2713','\u2713','\u2713','\u00D7','\u00D7',1,'3rd party Movie Only', 120_000],
+    "Standard Plan":['\u2713','\u2713','\u2713','\u2713','\u00D7',2,'Basic Plan + Sports (F1, Football, Basketball)',160_000],
+    "Premium Plan":['\u2713','\u2713','\u2713','\u2713','\u2713',4,'Basic Plan + Standard Plan + Pacflix Original Series',200_000]
 }
 
 compare = {
@@ -19,27 +19,29 @@ compare = {
 }
 
 list_plan = list(plan.keys())
+list_user = list(user.keys())
 
 
 class User:
-    
+
     def __init__(self,username,current_plan,duration_plan):
         self.username = username
         self.current_plan = current_plan.title()
         self.duration_plan = duration_plan
-        
+
+        if self.username not in (list_user):
+          raise ValueError("Username didn't exist!")
+
         if self.current_plan not in (list_plan):
-            raise Exception("Plan didn't exist!")
-        else:
-            pass
-        
+          raise ValueError("Plan didn't exist!")
+
     def check_benefit(self):
         print()
         print('Pacflix Plan List')
         print(tabulate(plan, headers = "keys" ,tablefmt='fancy_grid'))
         print()
-    
-    def check_plan(self):        
+
+    def check_plan(self):
         benefit = {
             "Services" : plan['Services'],
             "Plan" : plan[self.current_plan]
@@ -51,40 +53,40 @@ class User:
         print(f'{self.current_plan} Pacflix Benefit List')
         print(tabulate(benefit, headers = ['Services', self.current_plan] ,tablefmt='fancy_grid'))
         print()
-    
+
     def upgrade_plan(self,new_plan):
         self.new_plan = new_plan.title()
         if self.new_plan not in (list_plan):
             raise Exception("Plan didn't exist!")
         else:
             pass
-        
+
         plan_price = plan[self.new_plan][-1]
         if compare[self.current_plan] < compare[new_plan]:
             if self.duration_plan > 12:
                 discount = (5/100)
             else:
                 discount = 0
-                
+
             final_price = plan_price - (plan_price * discount)
             print(f'Price for upgrading to {self.new_plan}: Rp {final_price:,}')
-        
+
         elif compare[self.current_plan] == compare[new_plan]:
             print(f"{new_plan} is your current plan, please choose another plan.")
-        
+
         else:
-            print(f"Your current plan is {self.current_plan}. You can't Downgrade your plan.")     
-            
+            print(f"Your current plan is {self.current_plan}. You can't Downgrade your plan.")
+
 class New_User:
     def __init__(self,username):
         self.username = username
-    
+
     def check_benefit(self):
         print()
         print('Pacflix Plan List')
         print(tabulate(plan, headers = "keys" ,tablefmt='fancy_grid'))
         print()
-        
+
     def pick_plan(self,new_plan,referral_code):
         self.new_plan = new_plan.title()
         self.referral_code = referral_code
@@ -92,22 +94,24 @@ class New_User:
             raise Exception("Plan didn't exist!")
         else:
             pass
-        
+
         plan_price = plan[self.new_plan][-1]
-        
+
         list_values = []
         for sublist in user.values():
             for item in sublist:
                 list_values.append(item)
-        
+
         if referral_code in (list_values):
             print('Referral Code is Available')
             discount = (4/100)
         else:
             raise Exception("Referral Code doesn't Exist")
-        
+
         final_price = plan_price - (plan_price * discount)
         print(f'Total Price for {self.new_plan}: Rp {final_price:,}')
+
+
 
 '''Case Study 1: User Check all plan benefit '''
 print()    
