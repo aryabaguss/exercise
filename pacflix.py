@@ -1,50 +1,55 @@
 from tabulate import tabulate
 
-user= {
+
+
+
+
+
+
+class User:
+    user= {
     "Shandy": ["Basic Plan", 12, "shandy-2134"],
     "Cahya": ["Standard Plan", 24, "cahya-abcd"],
     "Ana": ["Premium Plan", 5, "ana-2f9g"],
     "Bagus": ["Basic Plan", 11, "bagus-9f92"]
-}
-
-plan = {
+    }
+    
+    plan = {
     "Services" : ['Stream', 'Download','SD Quality','HD Quality','UHD Quality','Number of Devices','Content Variety','Price'],
     "Basic Plan":['\u2713','\u2713','\u2713','\u00D7','\u00D7',1,'3rd party Movie Only', 120_000],
     "Standard Plan":['\u2713','\u2713','\u2713','\u2713','\u00D7',2,'Basic Plan + Sports (F1, Football, Basketball)',160_000],
     "Premium Plan":['\u2713','\u2713','\u2713','\u2713','\u2713',4,'Basic Plan + Standard Plan + Pacflix Original Series',200_000]
-}
-
-compare = {
+    }
+    
+    compare = {
     "Basic Plan": 1, "Standard Plan": 2, "Premium Plan": 3
-}
+    }
 
-list_plan = list(plan.keys())
-list_user = list(user.keys())
+    list_plan = list(plan.keys())
+    list_user = list(user.keys())
 
-
-class User:
 
     def __init__(self,username,current_plan,duration_plan):
         self.username = username
         self.current_plan = current_plan.title()
         self.duration_plan = duration_plan
 
-        if self.username not in (list_user):
+        if self.username not in (self.list_user):
           raise ValueError("Username didn't exist!")
 
-        if self.current_plan not in (list_plan):
+        if self.current_plan not in (self.list_plan):
           raise ValueError("Plan didn't exist!")
 
     def check_benefit(self):
         print()
         print('Pacflix Plan List')
-        print(tabulate(plan, headers = "keys" ,tablefmt='fancy_grid'))
+        print(tabulate(self.plan, headers = "keys" ,tablefmt='fancy_grid'))
         print()
 
     def check_plan(self):
         benefit = {
-            "Services" : plan['Services'],
-            "Plan" : plan[self.current_plan]
+            "Services" : self.plan['Services'],
+            "Plan" : self.plan[self.current_plan]
         }
         print(f'Username      : {self.username}')
         print(f'Current Plan  : {self.current_plan}')
@@ -56,13 +61,13 @@ class User:
 
     def upgrade_plan(self,new_plan):
         self.new_plan = new_plan.title()
-        if self.new_plan not in (list_plan):
+        if self.new_plan not in (self.list_plan):
             raise Exception("Plan didn't exist!")
         else:
             pass
 
-        plan_price = plan[self.new_plan][-1]
-        if compare[self.current_plan] < compare[new_plan]:
+        plan_price = self.plan[self.new_plan][-1]
+        if self.compare[self.current_plan] < self.compare[new_plan]:
             if self.duration_plan > 12:
                 discount = (5/100)
             else:
@@ -71,7 +76,7 @@ class User:
             final_price = plan_price - (plan_price * discount)
             print(f'Price for upgrading to {self.new_plan}: Rp {final_price:,}')
 
-        elif compare[self.current_plan] == compare[new_plan]:
+        elif self.compare[self.current_plan] == self.compare[new_plan]:
             print(f"{new_plan} is your current plan, please choose another plan.")
 
         else:
@@ -84,21 +89,21 @@ class New_User:
     def check_benefit(self):
         print()
         print('Pacflix Plan List')
-        print(tabulate(plan, headers = "keys" ,tablefmt='fancy_grid'))
+        print(tabulate(User.plan, headers = "keys" ,tablefmt='fancy_grid'))
         print()
 
     def pick_plan(self,new_plan,referral_code):
         self.new_plan = new_plan.title()
         self.referral_code = referral_code
-        if self.new_plan not in (list_plan):
+        if self.new_plan not in (User.list_plan):
             raise Exception("Plan didn't exist!")
         else:
             pass
 
-        plan_price = plan[self.new_plan][-1]
+        plan_price = User.plan[self.new_plan][-1]
 
         list_values = []
-        for sublist in user.values():
+        for sublist in User.user.values():
             for item in sublist:
                 list_values.append(item)
 
